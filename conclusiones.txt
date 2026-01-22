@@ -1,0 +1,30 @@
+==========================================================
+HALLAZGOS Y CONCLUSIONES - PRUEBAS DE API (KARATE)
+==========================================================
+
+1. HALLAZGOS TÉCNICOS
+---------------------
+* Robustez de Karate: Se comprobó que Karate Framework reduce
+  significativamente la cantidad de código Java necesario para
+  pruebas de API, permitiendo validaciones complejas de arreglos
+  JSON con una sola línea de comando (match contains).
+
+* Integridad de Datos: El endpoint 'findByStatus' mostró un comportamiento
+  correcto, devolviendo una lista de objetos donde se verificó la
+  existencia del ID previamente actualizado a 'sold'.
+
+* Manejo de Variables: El uso de 'karate-config.js' facilitó la
+  inyección de la URL base, permitiendo que el script sea
+  fácilmente transportable a otros entornos (QA, Staging).
+
+2. CONCLUSIONES
+---------------
+* El servicio de PetStore cumple con los estándares REST, permitiendo
+  el flujo completo solicitado sin errores de persistencia.
+* La implementación de umbrales de éxito (status 200) y validaciones
+  de esquema JSON aseguran una cobertura del 100% sobre los
+  requerimientos planteados en el ejercicio.
+
+----------------------------------------------------------
+Desarrollado por MATC
+----------------------------------------------------------
