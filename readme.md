@@ -1,6 +1,7 @@
 ===============================================================
 # Automatización de API PetStore con Karate Framework - NTT DATA
 ===============================================================
+
 Desarrollado por: MATC
 
 Este proyecto contiene la automatización de pruebas para la API de **PetStore** (Swagger), cubriendo el ciclo de vida completo de una mascota: creación, consulta, actualización y filtrado por estado.
@@ -48,14 +49,12 @@ Para integrar este proyecto en un pipeline de CI/CD (GitHub Actions, Jenkins o G
 Estructura del Pipeline
 El proyecto está diseñado para ser ejecutado mediante Maven, lo que facilita su integración:
 
-    1. Agente/Runner: Debe tener instalado el JDK 17 y Maven.
-
-    2. Etapa de Ejecución: Utilizar el comando:
-    ```bash
+   1. Agente/Runner: Debe tener instalado el JDK 17 y Maven.
+   2. Etapa de Ejecución: Utilizar el comando:
+         ```bash
         mvn clean test -Dtest=PetStoreRunner
-    ```
-
-    3. Persistencia de Resultados: Se recomienda configurar el pipeline para que guarde como "Artifacts" el contenido de la carpeta target/karate-reports/. Esto permitirá auditar las ejecuciones fallidas desde la interfaz del servidor de CI.
+        ```
+   3. Persistencia de Resultados: Se recomienda configurar el pipeline para que guarde como "Artifacts" el contenido de la carpeta target/karate-reports/. Esto permitirá auditar las ejecuciones fallidas desde la interfaz del servidor de CI.
 ------------------------------------------------------------------------------------------------------------------
 ## 5. Información adicional
 ------------------------------------------------------------------------------------------------------------------
