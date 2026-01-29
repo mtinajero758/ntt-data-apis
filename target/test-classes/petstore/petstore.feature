@@ -59,3 +59,31 @@ Feature: Ciclo de vida de mascotas en PetStore API
     And match response[*].id contains petId
     # Validación extra: Verificar que todos los elementos de la lista tengan estatus 'sold'
     And match each response[*].status == 'sold'
+
+  Scenario: Eliminar la mascota creada (Limpieza de datos)
+    Given path 'pet', petId
+    When method delete
+    Then status 200
+    And match response.message == "" + petId
+
+  Scenario Outline: Crear mascotas de diferentes categorias y estados
+    Given path 'pet'
+    And request
+    """
+    {
+      "id": #(petId),
+      "category": { "id": #(catId), "name": "<categoryName>" },
+      "name": "<petName>",
+      "status": "<status>"
+    }
+    """
+    When method post
+    Then status 200
+    And match response.name == "<petName>"
+    And match response.status == "<status>"
+
+    Examples:
+      | catId | categoryName | petName   | status    |
+      | 1     | perros       | Firulais  | available |
+      | 2     | gatos        | Michi     | pending   |
+      | 3     | aves         | Piolin    | sold      |
