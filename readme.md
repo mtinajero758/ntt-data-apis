@@ -29,12 +29,12 @@ Este proyecto contiene la automatización de pruebas para la API de **PetStore**
 ## 3. Instrucciones para ejecutar los test
 ------------------------------------------------------------------------------------------------------------------
 Opción A: Desde IntelliJ IDEA
-    1. Localice la clase PetStoreRunner.java en la ruta src/test/java/petstore/.
+1. Localice la clase PetStoreRunner.java en la ruta src/test/java/petstore/.
 
     2. Haga clic derecho y seleccione "Run 'PetStoreRunner'".
 
 Opción B: Desde la Terminal (Consola de comandos o Terminal de IntelliJ)
-    1. Abra una terminal en la carpeta raíz del proyecto.
+1. Abra una terminal en la carpeta raíz del proyecto.
 
     2. Ejecute el comando:
     ```bash
@@ -57,7 +57,7 @@ El proyecto está diseñado para ser ejecutado mediante Maven, lo que facilita s
 
     3. Persistencia de Resultados: Se recomienda configurar el pipeline para que guarde como "Artifacts" el contenido de la carpeta target/karate-reports/. Esto permitirá auditar las ejecuciones fallidas desde la interfaz del servidor de CI.
 ------------------------------------------------------------------------------------------------------------------
-5. Información adicional
+## 5. Información adicional
 ------------------------------------------------------------------------------------------------------------------
 Visualización de Reportes: Karate genera reportes nativos en formato HTML. Al finalizar la ejecución, abra el siguiente archivo en su navegador: target/karate-reports/karate-summary.html
 
