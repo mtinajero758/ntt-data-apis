@@ -59,3 +59,9 @@ Feature: Ciclo de vida de mascotas en PetStore API
     And match response[*].id contains petId
     # Validación extra: Verificar que todos los elementos de la lista tengan estatus 'sold'
     And match each response[*].status == 'sold'
+
+  Scenario: Eliminar la mascota creada (Limpieza de datos)
+    Given path 'pet', petId
+    When method delete
+    Then status 200
+    And match response.message == "" + petId

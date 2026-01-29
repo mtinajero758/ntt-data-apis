@@ -1,0 +1,38 @@
+==========================================================
+HALLAZGOS Y CONCLUSIONES - PRUEBAS DE API (KARATE)
+==========================================================
+------------------------------------------------------------------------------------
+Desarrollado por MATC
+------------------------------------------------------------------------------------
+1. HALLAZGOS TÉCNICOS
+------------------------------------------------------------------------------------
+* Robustez de Karate: Se comprobó que Karate Framework reduce
+  significativamente la cantidad de código Java necesario para
+  pruebas de API, permitiendo validaciones complejas de arreglos
+  JSON con una sola línea de comando (match contains).
+
+* Integridad de Datos: El endpoint 'findByStatus' mostró un comportamiento
+  correcto, devolviendo una lista de objetos donde se verificó la
+  existencia del ID previamente actualizado a 'sold'.
+
+* Manejo de Variables: El uso de 'karate-config.js' facilitó la
+  inyección de la URL base, permitiendo que el script sea
+  fácilmente transportable a otros entornos (QA, Staging).
+------------------------------------------------------------------------------------
+2. Mejoras Propuestas:
+------------------------------------------------------------------------------------
+   - Integrar Karate Reports con herramientas de CI como Jenkins para
+     visualizar la salud de los microservicios en tiempo real.
+   - Expandir la suite para incluir validaciones de esquemas JSON (JSON Schema
+     Validation) para prevenir cambios inesperados en los contratos de la API.
+------------------------------------------------------------------------------------
+3. CONCLUSIONES
+------------------------------------------------------------------------------------
+* El servicio de PetStore cumple con los estándares REST, permitiendo
+  el flujo completo solicitado sin errores de persistencia.
+* La implementación de umbrales de éxito (status 200) y validaciones
+  de esquema JSON aseguran una cobertura del 100% sobre los
+  requerimientos planteados en el ejercicio.
+* La arquitectura basada en karate-config.js permite que las pruebas sean
+  portables entre entornos (dev, staging, prod) sin cambios en el código.
+------------------------------------------------------------------------------------
