@@ -87,3 +87,14 @@ Feature: Ciclo de vida de mascotas en PetStore API
       | 1     | perros       | Firulais  | available |
       | 2     | gatos        | Michi     | pending   |
       | 3     | aves         | Piolin    | sold      |
+  Scenario: Intentar consultar mascota inexistente (Caso negativo)
+    Given path 'pet', 000000000
+    When method get
+    Then status 404
+    And match response.message == 'Pet not found'
+
+  Scenario: Intentar crear mascota con datos invalidos
+    Given path 'pet'
+    And request { "id": "no-es-un-numero", "name": "error" }
+    When method post
+    Then status 500
