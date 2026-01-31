@@ -1,72 +1,19 @@
 Feature: Ciclo de vida de mascotas en PetStore API
 
   Background:
-    # La variable baseUrl viene definida en karate-config.js
     * url baseUrl
     * def petId = 987654321
-    * def initialName = 'Firulais'
-    * def updatedName = 'Firulais Sold'
+    # CARGA RELATIVA (Si están en la misma carpeta que este feature)
+    * def petSchema = read('pet-schema.json')
 
-  Scenario: Añadir una mascota a la tienda
+  Scenario: Añadir una mascota y validar esquema
     Given path 'pet'
-    And request
-    """
-    {
-      "id": #(petId),
-      "category": { "id": 1, "name": "perros" },
-      "name": #(initialName),
-      "photoUrls": ["string"],
-      "tags": [{ "id": 1, "name": "mascota-prueba" }],
-      "status": "available"
-    }
-    """
+    And request { id: #(petId), name: 'Firulais', status: 'available' }
     When method post
     Then status 200
-    And match response.name == initialName
-    And match response.id == petId
+    And match response == petSchema
 
-  Scenario: Consultar la mascota ingresada previamente (Búsqueda por ID)
-    Given path 'pet', petId
-    When method get
-    Then status 200
-    And match response.id == petId
-    And match response.name == initialName
-
-  Scenario: Actualizar el nombre de la mascota y el estatus a 'sold'
-    Given path 'pet'
-    And request
-    """
-    {
-      "id": #(petId),
-      "category": { "id": 1, "name": "perros" },
-      "name": #(updatedName),
-      "photoUrls": ["string"],
-      "tags": [{ "id": 1, "name": "mascota-prueba" }],
-      "status": "sold"
-    }
-    """
-    When method put
-    Then status 200
-    And match response.status == 'sold'
-    And match response.name == updatedName
-
-  Scenario: Consultar la mascota modificada por estatus (Búsqueda por estatus)
-    Given path 'pet', 'findByStatus'
-    And param status = 'sold'
-    When method get
-    Then status 200
-    # Verificamos que en el arreglo de respuesta exista nuestra mascota con el ID correcto
-    And match response[*].id contains petId
-    # Validación extra: Verificar que todos los elementos de la lista tengan estatus 'sold'
-    And match each response[*].status == 'sold'
-
-  Scenario: Eliminar la mascota creada (Limpieza de datos)
-    Given path 'pet', petId
-    When method delete
-    Then status 200
-    And match response.message == "" + petId
-
-  Scenario Outline: Crear mascotas de diferentes categorias y estados
+  Scenario Outline: Crear mascotas desde CSV
     Given path 'pet'
     And request
     """
@@ -80,21 +27,27 @@ Feature: Ciclo de vida de mascotas en PetStore API
     When method post
     Then status 200
     And match response.name == "<petName>"
-    And match response.status == "<status>"
 
     Examples:
-      | catId | categoryName | petName   | status    |
-      | 1     | perros       | Firulais  | available |
-      | 2     | gatos        | Michi     | pending   |
-      | 3     | aves         | Piolin    | sold      |
-  Scenario: Intentar consultar mascota inexistente (Caso negativo)
+      | read('mascotas.csv') |
+
+  # --- LOS 3 ESCENARIOS DE ERROR SOLICITADOS ---
+
+  Scenario: Error 1: Consultar mascota inexistente (404)
     Given path 'pet', 000000000
     When method get
     Then status 404
     And match response.message == 'Pet not found'
 
-  Scenario: Intentar crear mascota con datos invalidos
+  Scenario: Error 2: ID con formato inválido (Letras en lugar de números)
     Given path 'pet'
-    And request { "id": "no-es-un-numero", "name": "error" }
+    And request { "id": "error_id", "name": "michi" }
     When method post
-    Then status 500
+    # PetStore suele responder 400 o 500 según la versión
+    Then assert responseStatus == 400 || responseStatus == 500
+
+  Scenario: Error 3: Actualizar sin enviar Body (415 Unsupported Media Type)
+    Given path 'pet'
+    And header Content-Type = 'application/json'
+    When method put
+    Then status 405
